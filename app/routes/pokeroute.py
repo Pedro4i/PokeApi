@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 from app.modeles.pokemodel import Pokemon
-from app.services.pokeservice import PokeService
+from app.services.poke_service import PokeService
 
 router = APIRouter(
     prefix="/pokemon",
@@ -13,7 +13,7 @@ pokemonService = PokeService()
 async def get_pokemon_by_name(name: str):
     return pokemonService.get_pokemon_by_name(name)
 
-@router.get("/id/{pokemon_id}")
+@router.get("/{pokemon_id}")
 async def get_pokemon_by_id(pokemon_id: int):
     return pokemonService.get_pokemon_by_id(pokemon_id)
 
@@ -22,7 +22,7 @@ async def get_all_pokemons_by_type(pokemon_type: str, page: int = Query(1), page
     pokemons = pokemonService.get_all_pokemons_by_type(pokemon_type, page, page_size)
     return pokemons
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_pokemon(pokemon: Pokemon):
     return pokemonService.create_pokemon(pokemon)
 
